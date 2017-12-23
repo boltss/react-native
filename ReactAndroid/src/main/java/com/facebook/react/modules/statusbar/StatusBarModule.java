@@ -181,8 +181,13 @@ public class StatusBarModule extends ReactContextBaseJavaModule {
           @Override
           public void run() {
             View decorView = activity.getWindow().getDecorView();
-            decorView.setSystemUiVisibility(
-              style.equals("dark-content") ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+            int systemUiVisibilityFlags = decorView.getSystemUiVisibility();
+            if (style.equals("dark-content")) {
+              systemUiVisibilityFlags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+              systemUiVisibilityFlags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+            decorView.setSystemUiVisibility(systemUiVisibilityFlags);
           }
         }
       );
